@@ -1,7 +1,14 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (context) => const MainApp(),
+    ),
+  );
+
 }
 
 class MainApp extends StatelessWidget {
@@ -19,4 +26,4 @@ class MainApp extends StatelessWidget {
   }
 }
 
-//teste
+//teste1
