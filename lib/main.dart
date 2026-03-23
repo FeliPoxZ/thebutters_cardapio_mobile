@@ -1,7 +1,15 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:thebutters_cardapio_mobile/controllers/login_controller.dart';
+import 'package:thebutters_cardapio_mobile/views/login_view.dart';
+
+final g = GetIt.instance;
+
 
 void main() {
+
+  g.registerSingleton<LoginController>(LoginController());
   runApp(
     DevicePreview(
       enabled: true,
@@ -16,12 +24,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'TheButters',
+
+      //
+      //Tabela de rotas
+      //
+      initialRoute: 'Login',
+      routes: {
+        'Login': (context) => LoginView(),
+      },
     );
   }
 }
