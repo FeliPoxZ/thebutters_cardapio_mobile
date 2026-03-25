@@ -32,7 +32,7 @@ class _LoginViewState extends State<LoginView> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.8,
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Color.fromRGBO(253, 247, 237, 1),
                     borderRadius: BorderRadius.all(
                       Radius.circular(20)
                     ),
@@ -76,29 +76,123 @@ class _LoginViewState extends State<LoginView> {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(253, 247, 237, 1),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20)
-                            )
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: 100,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ],
+
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Image.asset(
+                            'assets/images/Logo.png',
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
+
+                      Text(
+                        'The Butters',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: TextField(
+                          controller: ctrl.txtEmail,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color.fromRGBO(253, 217, 174, 1),
+                            hintText: 'E-mail',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 0,
+                          left: 20,
+                          right: 20,
+                          top: 0
+                        ),
+                        child: TextField(
+                          controller: ctrl.txtSenha,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color.fromRGBO(253, 217, 174, 1),
+                            hintText: 'Senha',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Esqueceu a senha?',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+                      SizedBox(height: 35),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          var retorno = ctrl.validarUsuarioBasico();
+                          if (retorno){
+                            Navigator.pushNamed(context, 'Cadastro');
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'E-mail e/ou senha errados, tente novamente',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15
+                                  ),
+                                ),
+                                backgroundColor: const Color.fromRGBO(236, 166, 80, 1),
+      
+                              ),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom (
+                          backgroundColor: Color.fromRGBO(28, 99, 178, 1),
+                          minimumSize: Size(290, 60),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                          )
+                        ),
+
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'ENTRAR',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 )

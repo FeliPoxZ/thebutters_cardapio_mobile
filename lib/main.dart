@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/controllers/login_controller.dart';
+import 'package:thebutters_cardapio_mobile/views/cadastro_view.dart';
 import 'package:thebutters_cardapio_mobile/views/login_view.dart';
 
 final g = GetIt.instance;
@@ -34,6 +35,7 @@ class MainApp extends StatelessWidget {
       initialRoute: 'Login',
       routes: {
         'Login': (context) => LoginView(),
+        'Cadastro': (context) => CadastroView()
       },
     );
   }
