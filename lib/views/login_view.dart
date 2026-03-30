@@ -192,7 +192,40 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+
+                      SizedBox(height: 10),
+
+                      TextButton(
+                        onPressed: () {
+                          var retorno = ctrl.validarUsuarioBasico();
+                          if (retorno){
+                            Navigator.pushNamed(context, 'Cadastro');
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'E-mail e/ou senha errados, tente novamente',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15
+                                  ),
+                                ),
+                                backgroundColor: const Color.fromRGBO(236, 166, 80, 1),
+      
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Criar uma conta',
+                          style: TextStyle(
+                            color: Color.fromRGBO(236, 166, 80, 1),
+                            fontStyle: FontStyle.italic
+                          ),
+
+                        ),
+                      ),
                     ],
                   ),
                 )
