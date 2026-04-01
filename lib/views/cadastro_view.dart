@@ -106,11 +106,13 @@ class _CadastroViewState extends State<CadastroView> {
                         ),
                       ),
 
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 25, right: 5, top: 5),
-                        child: Text(
-                          'The Butters',
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 5, left: 25, right: 5, top: 5),
+                          child: Text(
+                            'The Butters',
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
 
@@ -268,10 +270,10 @@ class _CadastroViewState extends State<CadastroView> {
                             if (_formKey.currentState!.validate()) {
                               // Formulário válido, prossiga
                               print('Formulário válido!');
+                              Navigator.pop(context);
                               // Aqui você pode chamar a lógica de cadastro
                             }
 
-                            Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromRGBO(28, 99, 178, 1),
