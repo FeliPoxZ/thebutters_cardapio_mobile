@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/controllers/cardapio_controller.dart';
+import 'package:thebutters_cardapio_mobile/core/theme/app_colors.dart';
 
 
 class CardapioView extends StatefulWidget {
@@ -52,7 +53,7 @@ class _CardapioViewState extends State<CardapioView> {
                   // HEADER
                   Container(
                     height: controller.headerHeight,
-                    color: Colors.red.shade200,
+                    color: AppColors.banner,
                     alignment: Alignment.center,
                     child: const Text(
                       'HEADER',
@@ -118,7 +119,7 @@ class _CardapioViewState extends State<CardapioView> {
             child: Container(
               height: controller.navbarHeight,
               decoration: BoxDecoration(
-                color: Colors.blue.shade200,
+                color: AppColors.primary,
                 boxShadow: isSticky
                     ? [
                         const BoxShadow(
@@ -155,8 +156,8 @@ class _CardapioViewState extends State<CardapioView> {
           Container(
             height: statusBar,
             color: isSticky
-                ? Colors.blue.shade200
-                : Colors.red.shade200,
+                ? AppColors.primary
+                : AppColors.banner,
           ),
         ],
       ),
