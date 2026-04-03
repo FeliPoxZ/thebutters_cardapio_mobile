@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/controllers/cardapio_controller.dart';
 import 'package:thebutters_cardapio_mobile/core/theme/app_colors.dart';
-
+import 'package:thebutters_cardapio_mobile/widgets/item_widget.dart';
 
 class CardapioView extends StatefulWidget {
   const CardapioView({super.key});
@@ -21,7 +21,7 @@ class _CardapioViewState extends State<CardapioView> {
     controller.init(5); // quantidade de seções (simula API)
 
     controller.scrollController.addListener(() {
-      setState(() {}); 
+      setState(() {});
     });
   }
 
@@ -34,6 +34,7 @@ class _CardapioViewState extends State<CardapioView> {
   @override
   Widget build(BuildContext context) {
     final statusBar = MediaQuery.of(context).padding.top;
+    final width = MediaQuery.sizeOf(context).width;
 
     final top = controller.getNavbarTop(statusBar);
     final isSticky = controller.isSticky(statusBar);
@@ -43,9 +44,9 @@ class _CardapioViewState extends State<CardapioView> {
         children: [
           // SCROLL PRINCIPAL
           ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(
-              scrollbars: false,
-            ),
+            behavior: ScrollConfiguration.of(
+              context,
+            ).copyWith(scrollbars: false),
             child: SingleChildScrollView(
               controller: controller.scrollController,
               child: Column(
@@ -55,17 +56,12 @@ class _CardapioViewState extends State<CardapioView> {
                     height: controller.headerHeight,
                     color: AppColors.banner,
                     alignment: Alignment.center,
-                    child: const Text(
-                      'HEADER',
-                      style: TextStyle(fontSize: 24),
-                    ),
+                    child: const Text('HEADER', style: TextStyle(fontSize: 24)),
                   ),
 
                   // BODY
                   Padding(
-                    padding: EdgeInsets.only(
-                      top: controller.navbarHeight,
-                    ),
+                    padding: EdgeInsets.only(top: controller.navbarHeight),
                     child: Column(
                       children: List.generate(5, (sectionIndex) {
                         return Container(
@@ -76,28 +72,50 @@ class _CardapioViewState extends State<CardapioView> {
                             children: [
                               // título
                               Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  'Seção $sectionIndex',
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.03,
+                                  vertical: 8,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Seção $sectionIndex',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.foreground.withValues(
+                                          alpha: 0.75,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsGeometry.only(
+                                        top: 6,
+                                      ),
+                                      child: Divider(
+                                        thickness: 1,
+                                        height: 1,
+                                        color: Color.fromARGB(255, 190, 190, 190),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
 
                               // 4 itens
                               ...List.generate(
                                 4,
-                                (i) => Container(
-                                  height: 80,
-                                  margin: const EdgeInsets.all(8),
-                                  color: Colors.orange.shade200,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Item $sectionIndex - $i',
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
+                                (i) => ItemWidget(
+                                  title: 'Item ${i + 1}',
+                                  description:
+                                      'Descrição do item ${i + 1} da seção $sectionIndex',
+                                  price: 10,
+                                  onTap: () {
+                                    debugPrint(
+                                      'Clicou no Item ${i + 1} da seção $sectionIndex',
+                                    );
+                                  },
                                 ),
                               ),
                             ],
@@ -155,9 +173,7 @@ class _CardapioViewState extends State<CardapioView> {
           // STATUS BAR
           Container(
             height: statusBar,
-            color: isSticky
-                ? AppColors.primary
-                : AppColors.banner,
+            color: isSticky ? AppColors.primary : AppColors.banner,
           ),
         ],
       ),
