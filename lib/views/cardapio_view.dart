@@ -175,6 +175,22 @@ class _CardapioViewState extends State<CardapioView> {
             height: statusBar,
             color: isSticky ? AppColors.primary : AppColors.banner,
           ),
+          Positioned(
+            top: statusBar + 10,
+            right: 15,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black26,
+                shape: BoxShape.circle
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.info_outline, color: Colors.white),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'Sobre');
+                },
+              ),
+            ),
+          )
         ],
       ),
     );

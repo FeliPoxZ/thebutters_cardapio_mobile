@@ -8,6 +8,7 @@ import 'package:thebutters_cardapio_mobile/core/theme/app_theme.dart';
 import 'package:thebutters_cardapio_mobile/views/cadastro_view.dart';
 import 'package:thebutters_cardapio_mobile/views/cardapio_view.dart';
 import 'package:thebutters_cardapio_mobile/views/login_view.dart';
+import 'package:thebutters_cardapio_mobile/views/sobre_view.dart';
 
 final g = GetIt.instance;
 
@@ -44,7 +45,8 @@ class MainApp extends StatelessWidget {
       routes: {
         'Login': (context) => LoginView(),
         'Cadastro': (context) => CadastroView(),
-        'Cardapio': (context) => CardapioView()
+        'Cardapio': (context) => CardapioView(),
+        'Sobre': (context) => SobreView()
       },
     );
   }
