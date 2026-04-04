@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/controllers/cardapio_controller.dart';
 import 'package:thebutters_cardapio_mobile/core/theme/app_colors.dart';
 import 'package:thebutters_cardapio_mobile/widgets/item_widget.dart';
+import 'package:thebutters_cardapio_mobile/widgets/round_button_widget.dart';
 
 class CardapioView extends StatefulWidget {
   const CardapioView({super.key});
@@ -54,9 +55,98 @@ class _CardapioViewState extends State<CardapioView> {
                   // HEADER
                   Container(
                     height: controller.headerHeight,
-                    color: AppColors.banner,
                     alignment: Alignment.center,
-                    child: const Text('HEADER', style: TextStyle(fontSize: 24)),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: controller.headerHeight * 0.55,
+                          color: AppColors.banner,
+                        ),
+                        Divider(
+                          thickness: 4,
+                          height: 4,
+                          color: AppColors.secondary,
+                        ),
+                        SizedBox(
+                          height: controller.headerHeight * 0.2,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Transform.translate(
+                                      offset: const Offset(0, -20),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(1),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: CircleAvatar(
+                                          radius: 40,
+                                          backgroundColor: AppColors.primary,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      "The Butters",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.foreground.withValues(
+                                          alpha: 0.75,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  spacing: 10,
+                                  children: [
+                                    RoundButtonWidget(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, "Sobre");
+                                      },
+                                      icon: const Icon(
+                                        Icons.account_circle_outlined,
+                                        color: AppColors.extraOrange,
+                                        size: 30,
+                                      ),
+                                    ),
+                                    RoundButtonWidget(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, "Sobre");
+                                      },
+                                      icon: const Icon(
+                                        Icons.info_outline,
+                                        color: AppColors.extraOrange,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          thickness: 1,
+                          height: 1,
+                          color: Color.fromARGB(255, 190, 190, 190),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
 
                   // BODY
@@ -96,7 +186,12 @@ class _CardapioViewState extends State<CardapioView> {
                                       child: Divider(
                                         thickness: 1,
                                         height: 1,
-                                        color: Color.fromARGB(255, 190, 190, 190),
+                                        color: Color.fromARGB(
+                                          255,
+                                          190,
+                                          190,
+                                          190,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -157,11 +252,14 @@ class _CardapioViewState extends State<CardapioView> {
                     child: Container(
                       width: 120,
                       margin: const EdgeInsets.all(8),
-                      color: Colors.blue.shade400,
                       alignment: Alignment.center,
                       child: Text(
                         'Seção $index',
-                        style: const TextStyle(color: Colors.white),
+                        style: TextStyle(
+                          color: AppColors.lightForeground,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   );
@@ -175,22 +273,6 @@ class _CardapioViewState extends State<CardapioView> {
             height: statusBar,
             color: isSticky ? AppColors.primary : AppColors.banner,
           ),
-          Positioned(
-            top: statusBar + 10,
-            right: 15,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black26,
-                shape: BoxShape.circle
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.info_outline, color: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, 'Sobre');
-                },
-              ),
-            ),
-          )
         ],
       ),
     );
