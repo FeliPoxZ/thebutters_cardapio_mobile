@@ -7,6 +7,7 @@ import 'package:thebutters_cardapio_mobile/controllers/cadastro_controller.dart'
 import 'package:thebutters_cardapio_mobile/core/theme/app_theme.dart';
 import 'package:thebutters_cardapio_mobile/views/cadastro_view.dart';
 import 'package:thebutters_cardapio_mobile/views/cardapio_view.dart';
+import 'package:thebutters_cardapio_mobile/views/esqueceu_senha_view.dart';
 import 'package:thebutters_cardapio_mobile/views/login_view.dart';
 import 'package:thebutters_cardapio_mobile/views/sobre_view.dart';
 
@@ -46,7 +47,8 @@ class MainApp extends StatelessWidget {
         'Login': (context) => LoginView(),
         'Cadastro': (context) => CadastroView(),
         'Cardapio': (context) => CardapioView(),
-        'Sobre': (context) => SobreView()
+        'Sobre': (context) => SobreView(),
+        'EsqueceuSenha': (context) => EsqueceuSenhaView()
       },
     );
   }
