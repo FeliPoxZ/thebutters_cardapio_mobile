@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/controllers/cardapio_controller.dart';
 import 'package:thebutters_cardapio_mobile/core/theme/app_colors.dart';
+import 'package:thebutters_cardapio_mobile/models/item_model.dart';
 import 'package:thebutters_cardapio_mobile/widgets/item_widget.dart';
 import 'package:thebutters_cardapio_mobile/widgets/round_button_widget.dart';
 
@@ -40,6 +41,19 @@ class _CardapioViewState extends State<CardapioView> {
     final isSticky = controller.isSticky(statusBar);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        elevation: 4,
+        backgroundColor: AppColors.secondary,
+        onPressed: () {
+          /*  showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => const BagModal(),
+          ); */
+          Navigator.pushNamed(context, "FinalizarPedido");
+        },
+        child: const Icon(Icons.shopping_bag),
+      ),
       body: Stack(
         children: [
           // SCROLL PRINCIPAL
@@ -55,7 +69,7 @@ class _CardapioViewState extends State<CardapioView> {
                   _Header(controller: controller),
 
                   // BODY
-                  _Body(controller: controller)
+                  _Body(controller: controller),
                 ],
               ),
             ),
@@ -325,15 +339,12 @@ class _Body extends StatelessWidget {
                 ...List.generate(
                   4,
                   (i) => ItemWidget(
-                    title: 'Item ${i + 1}',
-                    description:
-                        'Descrição do item ${i + 1} da seção $sectionIndex',
-                    price: 10,
-                    onTap: () {
-                      debugPrint(
-                        'Clicou no Item ${i + 1} da seção $sectionIndex',
-                      );
-                    },
+                    item: ItemModel(
+                      txtNomeProduto: 'Item ${i + 1}',
+                      descricao:
+                          'Descrição do item ${i + 1} da seção $sectionIndex',
+                      preco: 10,
+                    ),
                   ),
                 ),
               ],

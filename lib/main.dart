@@ -45,17 +45,15 @@ class MainApp extends StatelessWidget {
       //
       //Tabela de rotas
       //
-      initialRoute: 'finalizarPedido',
+      initialRoute: 'Login',
       routes: {
         'Login': (context) => LoginView(),
         'Cadastro': (context) => CadastroView(),
         'Cardapio': (context) => CardapioView(),
         'Sobre': (context) => SobreView(),
         'EsqueceuSenha': (context) => EsqueceuSenhaView(),
-        'finalizarPedido': (context) => FinalizarPedidoView()
+        'FinalizarPedido': (context) => FinalizarPedidoView()
       },
     );
   }
 }
-
-//teste1

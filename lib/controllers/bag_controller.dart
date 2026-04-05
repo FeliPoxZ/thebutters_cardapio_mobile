@@ -2,69 +2,75 @@ import 'package:flutter/material.dart';
 import 'package:thebutters_cardapio_mobile/models/item_model.dart';
 
 class BagController extends ChangeNotifier {
-
-  
   List<ItemModel> carrinho = [];
 
   /// Adiciona um item ao carrinho
   /// Se já existir, aumenta a quantidade
   void adicionarItem(ItemModel item) {
-    final index = carrinho.indexWhere((i) => i.txtNomeProduto == item.txtNomeProduto);
+    final index = carrinho.indexWhere(
+      (i) => i.txtNomeProduto == item.txtNomeProduto,
+    );
+
     if (index != -1) {
-      carrinho[index].quantidade += item.quantidade > 0 ? item.quantidade : 1;
+      final existente = carrinho[index];
+      final novaQuantidade =
+          (existente.quantidade ?? 1) + (item.quantidade ?? 1);
+
+      carrinho[index] = existente.copyWith(quantidade: novaQuantidade);
     } else {
-      carrinho.add(ItemModel(
-        txtNomeProduto: item.txtNomeProduto,
-        preco: item.preco,
-        descricao: item.descricao,
-        quantidade: item.quantidade > 0 ? item.quantidade : 1,
-      ));
+      carrinho.add(item);
     }
+
     notifyListeners();
   }
 
-  /// Remove completamente um item do carrinho
   void removerItem(ItemModel item) {
     carrinho.removeWhere((i) => i.txtNomeProduto == item.txtNomeProduto);
     notifyListeners();
   }
 
-  /// Limpa todo o carrinho
+  void incrementar(ItemModel item) {
+    final index = carrinho.indexOf(item);
+    if (index != -1) {
+      final atual = carrinho[index];
+      final novaQtd = (atual.quantidade ?? 1) + 1;
+
+      carrinho[index] = atual.copyWith(quantidade: novaQtd);
+      notifyListeners();
+    }
+  }
+
+  void decrementar(ItemModel item) {
+    final index = carrinho.indexOf(item);
+    if (index != -1) {
+      final atual = carrinho[index];
+      final qtdAtual = atual.quantidade ?? 1;
+
+      if (qtdAtual > 1) {
+        carrinho[index] = atual.copyWith(quantidade: qtdAtual - 1);
+      } else {
+        carrinho.removeAt(index);
+      }
+
+      notifyListeners();
+    }
+  }
+
   void limparCarrinho() {
     carrinho.clear();
     notifyListeners();
   }
 
-  /// Aumenta a quantidade de um item
-  void aumentarQuantidade(ItemModel item) {
-    final index = carrinho.indexWhere((i) => i.txtNomeProduto == item.txtNomeProduto);
-    if (index != -1) {
-      carrinho[index].quantidade += 1;
-      notifyListeners();
-    }
-  }
-
-  /// Diminui a quantidade de um item
-  /// Se a quantidade chegar a 0, remove o item
-  void diminuirQuantidade(ItemModel item) {
-    final index = carrinho.indexWhere((i) => i.txtNomeProduto == item.txtNomeProduto);
-    if (index != -1) {
-      if (carrinho[index].quantidade > 1) {
-        carrinho[index].quantidade -= 1;
-      } else {
-        carrinho.removeAt(index);
-      }
-      notifyListeners();
-    }
-  }
-
   /// Retorna a quantidade total de itens (somando todas as quantidades)
-  int totalItensCarrinho() {
-    return carrinho.fold(0, (sum, i) => sum + i.quantidade);
+  int get totalItensCarrinho {
+    return carrinho.fold(0, (sum, i) => sum + (i.quantidade ?? 1));
   }
 
-  /// Retorna o total do carrinho considerando preço * quantidade
-  double totalCarrinho() {
-    return carrinho.fold(0, (sum, i) => sum + (i.preco * i.quantidade));
+  double get totalGeral {
+    double total = 0;
+    for (var item in carrinho) {
+      total += item.preco * (item.quantidade ?? 1);
+    }
+    return total;
   }
 }

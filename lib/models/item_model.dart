@@ -1,12 +1,23 @@
-
-
-//adaptar para api
+//TODO: adaptar para api
 class ItemModel {
+  final String txtNomeProduto;
+  final double preco;
+  final String descricao;
+  final int? quantidade;
 
-  String txtNomeProduto = "";
-  double preco = 0.0;
-  String descricao = "";
-  int quantidade = 0;
-  ItemModel({required this.txtNomeProduto, required this.preco, required this.descricao, required this.quantidade});
+  ItemModel({
+    required this.txtNomeProduto,
+    required this.preco,
+    required this.descricao,
+    this.quantidade,
+  });
 
+  ItemModel copyWith({int? quantidade}) {
+    return ItemModel(
+      txtNomeProduto: txtNomeProduto,
+      preco: preco,
+      descricao: descricao,
+      quantidade: quantidade ?? this.quantidade,
+    );
+  }
 }

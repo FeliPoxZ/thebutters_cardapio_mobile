@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/controllers/bag_controller.dart';
-import 'package:thebutters_cardapio_mobile/models/item_model.dart';
-
 
 class FinalizarPedidoView extends StatefulWidget {
   const FinalizarPedidoView({super.key});
@@ -14,8 +12,6 @@ class FinalizarPedidoView extends StatefulWidget {
 class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
   final ctrl = GetIt.I.get<BagController>();
 
-
-
   void _listener() {
     setState(() {});
   }
@@ -25,8 +21,7 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
     super.initState();
     ctrl.addListener(_listener);
 
-
-      // 🔹 Adicionando dois itens de teste
+    /*       // 🔹 Adicionando dois itens de teste
     ctrl.adicionarItem(ItemModel(
       txtNomeProduto: "Hambúrguer1",
       preco: 15.0,
@@ -114,12 +109,12 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
       preco: 8.0,
       descricao: "Porção média",
       quantidade: 2,
-    ));
+    )); */
   }
 
   @override
   void dispose() {
-    ctrl.removeListener(_listener); // ⚠️ MUITO IMPORTANTE
+    ctrl.removeListener(_listener);
     super.dispose();
   }
 
@@ -149,11 +144,12 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                       blurRadius: 10,
                       spreadRadius: 1,
                       offset: Offset(0, 0),
-                    )
+                    ),
                   ],
                 ),
                 child: ListView(
-                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
                   children: [
                     const SizedBox(height: 15),
 
@@ -162,7 +158,7 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Seu carrinho: (${ctrl.totalItensCarrinho()})',
+                            'Seu carrinho: (${ctrl.totalItensCarrinho})',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -175,19 +171,17 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.redAccent,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)
-                              )
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
                             onPressed: () {
                               ctrl.limparCarrinho();
                             },
                             child: Text(
                               'Esvaziar carrinho',
-                              style: TextStyle(
-                                color: Colors.black
-                              ),
+                              style: TextStyle(color: Colors.black),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -196,7 +190,10 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
 
                     ...ctrl.carrinho.map((item) {
                       return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 6,
+                          horizontal: 12,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -230,7 +227,7 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                               IconButton(
                                 icon: const Icon(Icons.remove),
                                 onPressed: () {
-                                  ctrl.diminuirQuantidade(item);
+                                  ctrl.decrementar(item);
                                 },
                               ),
 
@@ -244,13 +241,16 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                               IconButton(
                                 icon: const Icon(Icons.add),
                                 onPressed: () {
-                                  ctrl.aumentarQuantidade(item);
+                                  ctrl.incrementar(item);
                                 },
                               ),
 
                               // Botão remover item
                               IconButton(
-                                icon: const Icon(Icons.close, color: Colors.redAccent),
+                                icon: const Icon(
+                                  Icons.close,
+                                  color: Colors.redAccent,
+                                ),
                                 onPressed: () {
                                   ctrl.removerItem(item);
                                 },
@@ -259,9 +259,9 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                           ),
                         ),
                       );
-                    })
-                    //mostrar os itens do carrinho - chat a partir dessa parte
+                    }),
 
+                    //mostrar os itens do carrinho - chat a partir dessa parte
                   ],
                 ),
               ),
@@ -284,17 +284,15 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(255, 139, 47, 1),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)
-                    )
-                  ),                  
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   child: const Text(
                     'Voltar',
-                    style: TextStyle(
-                      color: Colors.black
-                    ),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ),
@@ -303,7 +301,7 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
 
               // 💰 TOTAL DINÂMICO
               Text(
-                'R\$ ${ctrl.totalCarrinho().toStringAsFixed(2)}',
+                'R\$ ${ctrl.totalGeral.toStringAsFixed(2)}',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -317,17 +315,15 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.greenAccent,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)
-                    )
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                   onPressed: () {
                     ctrl.limparCarrinho();
                     final snackBar = SnackBar(
                       content: Text(
                         'Pagamento foi realizado com sucesso!',
-                        style: TextStyle(
-                          color: Colors.black
-                        ),
+                        style: TextStyle(color: Colors.black),
                       ),
                       backgroundColor: Colors.greenAccent,
                       duration: Duration(seconds: 5),
@@ -337,9 +333,7 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                   },
                   child: const Text(
                     'Pagar',
-                    style: TextStyle(
-                      color: Colors.black
-                    ),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ),

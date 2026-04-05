@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:thebutters_cardapio_mobile/core/theme/app_colors.dart';
+import 'package:thebutters_cardapio_mobile/models/item_model.dart';
+import 'package:thebutters_cardapio_mobile/widgets/item_modal.dart';
 
+// WIDGET
 class ItemWidget extends StatelessWidget {
-  final String title;
-  final String description;
-  final double price;
-  final VoidCallback? onTap;
+  final ItemModel item;
 
-  const ItemWidget({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.price,
-    this.onTap,
-  });
+  const ItemWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +18,12 @@ class ItemWidget extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          debugPrint('Clicou em $title');
-          if (onTap != null) onTap!();
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: AppColors.item,
+            builder: (_) => ItemModal(item: item),
+          );
         },
         child: Card(
           elevation: 2,
@@ -39,7 +37,7 @@ class ItemWidget extends StatelessWidget {
             height: 120,
             child: Row(
               children: [
-                // TEXTO (EXPANDE)
+                // TEXTO
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,11 +45,11 @@ class ItemWidget extends StatelessWidget {
                     children: [
                       // TÍTULO
                       Text(
-                        title,
+                        item.txtNomeProduto,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.foreground.withValues(alpha: 0.6)
+                          color: AppColors.foreground.withValues(alpha: 0.6),
                         ),
                       ),
 
@@ -59,11 +57,8 @@ class ItemWidget extends StatelessWidget {
 
                       // DESCRIÇÃO
                       Text(
-                        description,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey[700],
-                        ),
+                        item.descricao,
+                        style: TextStyle(fontSize: 13, color: Colors.grey[700]),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -72,7 +67,7 @@ class ItemWidget extends StatelessWidget {
 
                       // PREÇO
                       Text(
-                        'R\$ ${price.toStringAsFixed(2)}',
+                        'R\$ ${item.preco.toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.green,
@@ -85,7 +80,7 @@ class ItemWidget extends StatelessWidget {
 
                 const SizedBox(width: 12),
 
-                // IMAGEM 
+                // TODO: IMAGEM
                 Container(
                   width: 80,
                   height: 80,
