@@ -45,7 +45,7 @@ class MainApp extends StatelessWidget {
       //
       //Tabela de rotas
       //
-      initialRoute: 'Login',
+      initialRoute: 'finalizarPedido',
       routes: {
         'Login': (context) => LoginView(),
         'Cadastro': (context) => CadastroView(),
