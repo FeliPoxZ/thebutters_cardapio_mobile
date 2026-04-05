@@ -158,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
                         onPressed: () {
                           var retorno = ctrl.validarUsuarioBasico();
                           if (retorno){
-                            Navigator.pushNamed(context, 'Cardapio');
+                            Navigator.pushReplacementNamed(context, 'Cardapio');
                           }else{
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

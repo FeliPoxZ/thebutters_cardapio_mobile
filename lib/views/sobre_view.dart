@@ -57,7 +57,7 @@ class _SobreViewState extends State<SobreView> {
                         ),
                         child: Center(
                           child: Padding(
-                            padding: const EdgeInsetsGeometry.all(20),
+                            padding: const EdgeInsetsGeometry.fromLTRB(20, 20, 20, 0),
                             child: Image.asset(
                               'assets/images/Capivara1.png',
                               fit: BoxFit.contain,

@@ -20,7 +20,7 @@ void main() {
 
   g.registerSingleton<LoginController>(LoginController());
   g.registerSingleton<CadastroController>(CadastroController());
-  g.registerSingleton<CardapioController>(CardapioController(headerHeight: 300, navbarHeight: 50));
+  g.registerSingleton<CardapioController>(CardapioController(headerHeight: 350, navbarHeight: 50));
   g.registerSingleton<BagController>(BagController());
   
   runApp(

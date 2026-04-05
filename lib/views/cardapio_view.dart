@@ -45,11 +45,6 @@ class _CardapioViewState extends State<CardapioView> {
         elevation: 4,
         backgroundColor: AppColors.secondary,
         onPressed: () {
-          /*  showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (_) => const BagModal(),
-          ); */
           Navigator.pushNamed(context, "FinalizarPedido");
         },
         child: const Icon(Icons.shopping_bag),
@@ -156,6 +151,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final isAberto = isLojaAberta();
     final width = MediaQuery.sizeOf(context).width;
+    final statusBar = MediaQuery.of(context).padding.top;
     return Container(
       height: controller.headerHeight,
       alignment: Alignment.center,
@@ -163,7 +159,15 @@ class _Header extends StatelessWidget {
         children: [
           Container(
             height: controller.headerHeight * 0.55,
+            width: width,
             color: AppColors.banner,
+            child: Padding(
+              padding: EdgeInsets.only(top: statusBar),
+              child: Image.asset(
+                'assets/images/Capivara1.png',
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
           Divider(thickness: 4, height: 4, color: AppColors.secondary),
           SizedBox(
@@ -178,15 +182,12 @@ class _Header extends StatelessWidget {
                     children: [
                       Transform.translate(
                         offset: const Offset(0, -20),
-                        child: Container(
-                          padding: const EdgeInsets.all(1),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            radius: 40,
-                            backgroundColor: AppColors.primary,
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.transparent,
+                          child: Image.asset(
+                            'assets/images/Logo.png',
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
