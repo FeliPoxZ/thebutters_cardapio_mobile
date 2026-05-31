@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "480489289206",
+    "project_id": "the-butters-mobile-app",
+    "storage_bucket": "the-butters-mobile-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480489289206:android:bee5630abbb5a3715e03d7",
+        "android_client_info": {
+          "package_name": "com.example.thebutters_cardapio_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBilw45xDE__LLHBaWBJqHHCjK5B3k8Ffw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
