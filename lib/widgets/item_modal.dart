@@ -47,7 +47,7 @@ class _ItemModalState extends State<ItemModal> {
 
             // TÍTULO
             Text(
-              widget.item.txtNomeProduto,
+              widget.item.nome,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 

@@ -205,7 +205,7 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      item.txtNomeProduto,
+                                      item.nome,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,

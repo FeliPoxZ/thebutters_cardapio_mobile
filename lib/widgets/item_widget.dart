@@ -45,12 +45,14 @@ class ItemWidget extends StatelessWidget {
                     children: [
                       // TÍTULO
                       Text(
-                        item.txtNomeProduto,
+                        item.nome,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: AppColors.foreground.withValues(alpha: 0.6),
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
 
                       const SizedBox(height: 6),

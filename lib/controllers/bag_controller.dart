@@ -8,7 +8,7 @@ class BagController extends ChangeNotifier {
   /// Se já existir, aumenta a quantidade
   void adicionarItem(ItemModel item) {
     final index = carrinho.indexWhere(
-      (i) => i.txtNomeProduto == item.txtNomeProduto,
+      (i) => i.nome == item.nome,
     );
 
     if (index != -1) {
@@ -25,7 +25,7 @@ class BagController extends ChangeNotifier {
   }
 
   void removerItem(ItemModel item) {
-    carrinho.removeWhere((i) => i.txtNomeProduto == item.txtNomeProduto);
+    carrinho.removeWhere((i) => i.nome == item.nome);
     notifyListeners();
   }
 

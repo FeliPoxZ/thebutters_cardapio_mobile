@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/controllers/cardapio_controller.dart';
 import 'package:thebutters_cardapio_mobile/core/theme/app_colors.dart';
-import 'package:thebutters_cardapio_mobile/models/item_model.dart';
 import 'package:thebutters_cardapio_mobile/widgets/item_widget.dart';
 import 'package:thebutters_cardapio_mobile/widgets/round_button_widget.dart';
 
@@ -16,11 +15,13 @@ class CardapioView extends StatefulWidget {
 class _CardapioViewState extends State<CardapioView> {
   final controller = GetIt.I<CardapioController>();
 
+  late Future<void> _loadData;
+
   @override
   void initState() {
     super.initState();
 
-    controller.init(5); // quantidade de seções (simula API)
+    _loadData = controller.init();
 
     controller.scrollController.addListener(() {
       setState(() {});
@@ -35,6 +36,21 @@ class _CardapioViewState extends State<CardapioView> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _loadData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        return _buildContent(context);
+      },
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
     final statusBar = MediaQuery.of(context).padding.top;
 
     final top = controller.getNavbarTop(statusBar);
@@ -91,16 +107,16 @@ class _CardapioViewState extends State<CardapioView> {
               ),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 5,
+                itemCount: controller.secoes.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () => controller.scrollToSection(index),
                     child: Container(
-                      width: 120,
                       margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       alignment: Alignment.center,
                       child: Text(
-                        'Seção $index',
+                        controller.secoes[index].nome,
                         style: TextStyle(
                           color: AppColors.lightForeground,
                           fontSize: 18,
@@ -300,7 +316,9 @@ class _Body extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: controller.navbarHeight),
       child: Column(
-        children: List.generate(5, (sectionIndex) {
+        children: List.generate(controller.secoes.length, (sectionIndex) {
+          final secao = controller.secoes[sectionIndex];
+
           return Container(
             key: controller.sectionKeys[sectionIndex],
             margin: const EdgeInsets.symmetric(vertical: 16),
@@ -317,7 +335,7 @@ class _Body extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Seção $sectionIndex',
+                        controller.secoes[sectionIndex].nome,
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -336,18 +354,7 @@ class _Body extends StatelessWidget {
                   ),
                 ),
 
-                // 4 itens
-                ...List.generate(
-                  4,
-                  (i) => ItemWidget(
-                    item: ItemModel(
-                      txtNomeProduto: 'Item ${i + 1}',
-                      descricao:
-                          'Descrição do item ${i + 1} da seção $sectionIndex',
-                      preco: 10,
-                    ),
-                  ),
-                ),
+                ...secao.itens.map((item) => ItemWidget(item: item)),
               ],
             ),
           );

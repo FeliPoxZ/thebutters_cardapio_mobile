@@ -7,6 +7,8 @@ import 'package:thebutters_cardapio_mobile/controllers/login_controller.dart';
 import 'package:thebutters_cardapio_mobile/controllers/cadastro_controller.dart';
 import 'package:thebutters_cardapio_mobile/core/theme/app_theme.dart';
 import 'package:thebutters_cardapio_mobile/services/usuario_service.dart';
+import 'package:thebutters_cardapio_mobile/services/secao_service.dart';
+import 'package:thebutters_cardapio_mobile/services/item_service.dart';
 import 'package:thebutters_cardapio_mobile/views/cadastro_view.dart';
 import 'package:thebutters_cardapio_mobile/views/cardapio_view.dart';
 import 'package:thebutters_cardapio_mobile/views/esqueceu_senha_view.dart';
@@ -16,39 +18,34 @@ import 'package:thebutters_cardapio_mobile/views/sobre_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
 final g = GetIt.instance;
 
-
-Future <void>  main() async{
-
+Future<void> main() async {
   //Garante que o Flutter inicializou os componentes internos
   WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  /* await SeedFirestore.popularBanco(); */
 
   g.registerSingleton<UsuarioService>(UsuarioService());
   g.registerSingleton<LoginController>(
-  LoginController(usuarioService: g<UsuarioService>()),
+    LoginController(usuarioService: g<UsuarioService>()),
   );
   g.registerSingleton<CadastroController>(
-  CadastroController(usuarioService: g<UsuarioService>()),
+    CadastroController(usuarioService: g<UsuarioService>()),
+  );
+  g.registerSingleton<SecaoService>(SecaoService());
+  g.registerSingleton<ItemService>(
+  ItemService(),
 );
-  g.registerSingleton<CardapioController>(CardapioController(headerHeight: 350, navbarHeight: 50));
+  g.registerSingleton<CardapioController>(
+    CardapioController(headerHeight: 350, navbarHeight: 50),
+  );
   g.registerSingleton<BagController>(BagController());
 
-
   await g<UsuarioService>().carregarSessao();
-  
-  runApp(
-    DevicePreview(
-      enabled: true,
-      builder: (context) => const MainApp(),
-    ),
-  );
 
+  runApp(DevicePreview(enabled: true, builder: (context) => const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -71,7 +68,7 @@ class MainApp extends StatelessWidget {
         'Cardapio': (context) => CardapioView(),
         'Sobre': (context) => SobreView(),
         'EsqueceuSenha': (context) => EsqueceuSenhaView(),
-        'FinalizarPedido': (context) => FinalizarPedidoView()
+        'FinalizarPedido': (context) => FinalizarPedidoView(),
       },
     );
   }
