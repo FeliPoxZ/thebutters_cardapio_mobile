@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:thebutters_cardapio_mobile/services/usuario_service.dart';
 import 'aux_controller.dart';
 
-
-class LoginController extends ChangeNotifier{
-
+class LoginController extends ChangeNotifier {
   // Variável para o serviço de sessão
   final UsuarioService _usuarioService;
 
@@ -26,16 +24,15 @@ class LoginController extends ChangeNotifier{
   bool _carregando = false;
   bool get carregando => _carregando;
 
-  void atualizarTela (){
+  void atualizarTela() {
     notifyListeners();
   }
-  
-  void limpar (){
+
+  void limpar() {
     txtEmail.clear();
     txtSenha.clear();
     notifyListeners();
   }
-
 
   // LOGIN
   // Efetuar o login de um usuário previamente cadastrado
@@ -55,8 +52,8 @@ class LoginController extends ChangeNotifier{
     try {
       //Efetua login no Firebase Authentication
       await auth.signInWithEmailAndPassword(
-        email: txtEmail.text.trim(), 
-        password: txtSenha.text.trim()
+        email: txtEmail.text.trim(),
+        password: txtSenha.text.trim(),
       );
 
       //Carrega os dados do usuário do Firestore passa a sessão global
@@ -70,9 +67,9 @@ class LoginController extends ChangeNotifier{
 
       //Limpa os campos apenas se o login funcionar
       limpar();
-
     } on FirebaseAuthException catch (e) {
-      String mensagem = "As credenciais fornecidas estão incorretas ou expiraram";
+      String mensagem =
+          "As credenciais fornecidas estão incorretas ou expiraram";
       if (e.code == 'invalid-email') {
         mensagem = "O formato do e-mail é inválido";
       } else if (e.code == 'user-not-found' || e.code == 'wrong-password') {
@@ -94,8 +91,7 @@ class LoginController extends ChangeNotifier{
   // um conta de email válida
   //
   Future<bool> esqueceuSenha(dynamic context) async {
-
-    if(txtEmailEsqueciSenha.text.trim().isEmpty) {
+    if (txtEmailEsqueciSenha.text.trim().isEmpty) {
       erro(context, "Por favor, informe o e-mail de recuperação");
       return false;
     }
@@ -105,10 +101,12 @@ class LoginController extends ChangeNotifier{
 
     try {
       // O trim() remove espaços em branco acidentais
-      await auth.sendPasswordResetEmail(email: txtEmailEsqueciSenha.text.trim()); 
-      
+      await auth.sendPasswordResetEmail(
+        email: txtEmailEsqueciSenha.text.trim(),
+      );
+
       // Se chegou aqui, deu certo!
-      return true; 
+      return true;
     } on FirebaseAuthException catch (e) {
       String mensagem = "Ocorreu um erro ao tentar validar o e-mail!";
       if (e.code == 'invalid-email') {
@@ -128,7 +126,6 @@ class LoginController extends ChangeNotifier{
     }
   }
 
-
   //
   // LOGOUT
   // Efetuar o logoff do usuário, limpar a sessão e voltar ao Login
@@ -147,7 +144,6 @@ class LoginController extends ChangeNotifier{
 
       // 3. Redireciona o usuário para a tela de Login e remove o histórico de navegação
       Navigator.pushNamedAndRemoveUntil(context, 'Login', (route) => false);
-
     } catch (e) {
       if (context.mounted) {
         erro(context, "Ocorreu um erro ao tentar sair: $e");
@@ -160,16 +156,16 @@ class LoginController extends ChangeNotifier{
     }
   }
 
-  bool validarUsuarioBasico(){
-    if (txtEmail.text == 'adm' || txtEmail.text == 'ADM'){
-      if (txtSenha.text == 'adm' || txtSenha.text == 'ADM'){
+  bool validarUsuarioBasico() {
+    if (txtEmail.text == 'adm' || txtEmail.text == 'ADM') {
+      if (txtSenha.text == 'adm' || txtSenha.text == 'ADM') {
         notifyListeners();
         return true;
-      }else{
+      } else {
         notifyListeners();
         return false;
       }
-    }else {
+    } else {
       notifyListeners();
       return false;
     }

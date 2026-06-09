@@ -19,13 +19,17 @@ class UsuarioService extends ChangeNotifier {
   Future<void> carregarSessao() async {
     User? userAtual = _auth.currentUser;
 
-    if (userAtual != null) { //Verifica se tem alguma conta logada
+    if (userAtual != null) {
+      //Verifica se tem alguma conta logada
       uid = userAtual.uid;
       email = userAtual.email;
 
       try {
         // Busca o documento do usuário usando o UID na coleção do Firestore
-        DocumentSnapshot doc = await _firestore.collection('usuarios').doc(uid).get();
+        DocumentSnapshot doc = await _firestore
+            .collection('usuarios')
+            .doc(uid)
+            .get();
 
         if (doc.exists && doc.data() != null) {
           Map<String, dynamic> dados = doc.data() as Map<String, dynamic>;

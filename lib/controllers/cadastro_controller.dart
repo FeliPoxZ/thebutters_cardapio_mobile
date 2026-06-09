@@ -61,9 +61,9 @@ class CadastroController extends ChangeNotifier {
 
       //Criar a coleção/documento no Firestore usando o mesmo UID
       await _firestore.collection('usuarios').doc(uid).set({
-        'Nome': txtNomeCompleto.text.trim(),
-        "Email": txtEmail.text.trim(),
-        'Telefone' : txtTelefone.text.trim()
+        'nome': txtNomeCompleto.text.trim(),
+        "email": txtEmail.text.trim(),
+        'telefone' : txtTelefone.text.trim()
       });
 
       // Salva os dados na sessão local

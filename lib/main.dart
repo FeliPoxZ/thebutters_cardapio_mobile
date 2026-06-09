@@ -9,6 +9,7 @@ import 'package:thebutters_cardapio_mobile/core/theme/app_theme.dart';
 import 'package:thebutters_cardapio_mobile/services/usuario_service.dart';
 import 'package:thebutters_cardapio_mobile/services/secao_service.dart';
 import 'package:thebutters_cardapio_mobile/services/item_service.dart';
+import 'package:thebutters_cardapio_mobile/services/pedido_service.dart';
 import 'package:thebutters_cardapio_mobile/views/cadastro_view.dart';
 import 'package:thebutters_cardapio_mobile/views/cardapio_view.dart';
 import 'package:thebutters_cardapio_mobile/views/esqueceu_senha_view.dart';
@@ -35,12 +36,11 @@ Future<void> main() async {
     CadastroController(usuarioService: g<UsuarioService>()),
   );
   g.registerSingleton<SecaoService>(SecaoService());
-  g.registerSingleton<ItemService>(
-  ItemService(),
-);
+  g.registerSingleton<ItemService>(ItemService());
   g.registerSingleton<CardapioController>(
     CardapioController(headerHeight: 350, navbarHeight: 50),
   );
+  g.registerSingleton<PedidoService>(PedidoService());
   g.registerSingleton<BagController>(BagController());
 
   await g<UsuarioService>().carregarSessao();

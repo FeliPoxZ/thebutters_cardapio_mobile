@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:thebutters_cardapio_mobile/models/item_model.dart';
+import 'package:thebutters_cardapio_mobile/services/pedido_service.dart';
+import 'package:thebutters_cardapio_mobile/services/usuario_service.dart';
 
 class BagController extends ChangeNotifier {
   List<ItemModel> carrinho = [];
 
+  final _pedidoService = GetIt.I<PedidoService>();
+  final _usuarioService = GetIt.I<UsuarioService>();
+
   /// Adiciona um item ao carrinho
   /// Se já existir, aumenta a quantidade
   void adicionarItem(ItemModel item) {
-    final index = carrinho.indexWhere(
-      (i) => i.nome == item.nome,
-    );
+    final index = carrinho.indexWhere((i) => i.nome == item.nome);
 
     if (index != -1) {
       final existente = carrinho[index];
@@ -59,6 +63,28 @@ class BagController extends ChangeNotifier {
   void limparCarrinho() {
     carrinho.clear();
     notifyListeners();
+  }
+
+  Future<void> realizarPedido() async {
+    if (carrinho.isEmpty) {
+      throw Exception('Carrinho vazio');
+    }
+
+    final uid = _usuarioService.uid;
+    final nome = _usuarioService.nome;
+
+    if (uid == null || nome == null) {
+      throw Exception('Usuário não autenticado');
+    }
+
+    await _pedidoService.criarPedido(
+      usuarioId: uid,
+      usuarioNome: nome,
+      itens: carrinho,
+      precoTotal: totalGeral,
+    );
+
+    limparCarrinho();
   }
 
   /// Retorna a quantidade total de itens (somando todas as quantidades)

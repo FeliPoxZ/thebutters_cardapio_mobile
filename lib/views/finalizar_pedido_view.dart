@@ -12,6 +12,8 @@ class FinalizarPedidoView extends StatefulWidget {
 class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
   final ctrl = GetIt.I.get<BagController>();
 
+  bool carregando = false;
+
   void _listener() {
     setState(() {});
   }
@@ -20,96 +22,6 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
   void initState() {
     super.initState();
     ctrl.addListener(_listener);
-
-    /*       // 🔹 Adicionando dois itens de teste
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Hambúrguer1",
-      preco: 15.0,
-      descricao: "Hambúrguer artesanal1",
-      quantidade: 1,
-    ));
-
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Batata Frita1",
-      preco: 8.0,
-      descricao: "Porção média1",
-      quantidade: 2,
-    ));
-
-          // 🔹 Adicionando dois itens de teste
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Hambúrguer2",
-      preco: 15.0,
-      descricao: "Hambúrguer artesanal2",
-      quantidade: 1,
-    ));
-
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Batata Frita2",
-      preco: 8.0,
-      descricao: "Porção média2",
-      quantidade: 2,
-    ));
-
-          // 🔹 Adicionando dois itens de teste
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Hambúrguer3",
-      preco: 15.0,
-      descricao: "Hambúrguer artesanal3",
-      quantidade: 1,
-    ));
-
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Batata Frita3",
-      preco: 8.0,
-      descricao: "Porção média3",
-      quantidade: 2,
-    ));
-    
-          // 🔹 Adicionando dois itens de teste
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Hambúrguer4",
-      preco: 15.0,
-      descricao: "Hambúrguer artesanal4",
-      quantidade: 1,
-    ));
-
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Batata Frita4",
-      preco: 8.0,
-      descricao: "Porção média4",
-      quantidade: 2,
-    ));
-
-          // 🔹 Adicionando dois itens de teste
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Hambúrguer5",
-      preco: 15.0,
-      descricao: "Hambúrguer artesanal5",
-      quantidade: 1,
-    ));
-
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Batata Frita5",
-      preco: 8.0,
-      descricao: "Porção média5",
-      quantidade: 2,
-    ));
-
-          // 🔹 Adicionando dois itens de teste
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Hambúrguer",
-      preco: 15.0,
-      descricao: "Hambúrguer artesanal",
-      quantidade: 1,
-    ));
-
-    ctrl.adicionarItem(ItemModel(
-      txtNomeProduto: "Batata Frita",
-      preco: 8.0,
-      descricao: "Porção média",
-      quantidade: 2,
-    )); */
   }
 
   @override
@@ -128,7 +40,6 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
       ),
       backgroundColor: const Color.fromRGBO(243, 236, 222, 1),
 
-      // ✅ BODY CORRIGIDO
       body: Padding(
         padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
         child: Column(
@@ -270,7 +181,6 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
         ),
       ),
 
-      // ✅ BOTTOM CORRIGIDO
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
@@ -299,7 +209,6 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
 
               const SizedBox(width: 10),
 
-              // 💰 TOTAL DINÂMICO
               Text(
                 'R\$ ${ctrl.totalGeral.toStringAsFixed(2)}',
                 style: const TextStyle(
@@ -318,23 +227,57 @@ class _FinalizarPedidoViewState extends State<FinalizarPedidoView> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {
-                    ctrl.limparCarrinho();
-                    final snackBar = SnackBar(
-                      content: Text(
-                        'Pagamento foi realizado com sucesso!',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      backgroundColor: Colors.greenAccent,
-                      duration: Duration(seconds: 5),
-                    );
+                  onPressed: carregando
+                      ? null
+                      : () async {
+                          try {
+                            setState(() {
+                              carregando = true;
+                            });
 
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
-                  child: const Text(
-                    'Pagar',
-                    style: TextStyle(color: Colors.black),
-                  ),
+                            await ctrl.realizarPedido();
+
+                            if (!context.mounted) return;
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Pagamento foi realizado com sucesso!',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                backgroundColor: Colors.greenAccent,
+                                duration: Duration(seconds: 5),
+                              ),
+                            );
+
+                            Navigator.pop(context);
+                          } catch (e) {
+                            if (!context.mounted) return;
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Erro ao realizar pedido: $e'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          } finally {
+                            if (mounted) {
+                              setState(() {
+                                carregando = false;
+                              });
+                            }
+                          }
+                        },
+                  child: carregando
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text(
+                          'Pagar',
+                          style: TextStyle(color: Colors.black),
+                        ),
                 ),
               ),
             ],
