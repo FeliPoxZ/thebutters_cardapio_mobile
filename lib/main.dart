@@ -46,7 +46,7 @@ Future<void> main() async {
 
   await g<UsuarioService>().carregarSessao();
 
-  runApp(DevicePreview(enabled: true, builder: (context) => const MainApp()));
+  runApp(DevicePreview(enabled: false, builder: (context) => const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
