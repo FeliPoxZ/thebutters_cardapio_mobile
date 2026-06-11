@@ -78,6 +78,7 @@ class CardapioController {
     );
   }
 
+  /* TODO: DISPOSE */
   void dispose() {
     scrollController.dispose();
   }

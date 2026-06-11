@@ -12,6 +12,7 @@ import 'package:thebutters_cardapio_mobile/services/item_service.dart';
 import 'package:thebutters_cardapio_mobile/services/pedido_service.dart';
 import 'package:thebutters_cardapio_mobile/views/cadastro_view.dart';
 import 'package:thebutters_cardapio_mobile/views/cardapio_view.dart';
+import 'package:thebutters_cardapio_mobile/views/conta_view.dart';
 import 'package:thebutters_cardapio_mobile/views/esqueceu_senha_view.dart';
 import 'package:thebutters_cardapio_mobile/views/finalizar_pedido_view.dart';
 import 'package:thebutters_cardapio_mobile/views/login_view.dart';
@@ -37,15 +38,15 @@ Future<void> main() async {
   );
   g.registerSingleton<SecaoService>(SecaoService());
   g.registerSingleton<ItemService>(ItemService());
-  g.registerSingleton<CardapioController>(
-    CardapioController(headerHeight: 350, navbarHeight: 50),
+  g.registerFactory<CardapioController>(
+    () => CardapioController(headerHeight: 350, navbarHeight: 50),
   );
   g.registerSingleton<PedidoService>(PedidoService());
   g.registerSingleton<BagController>(BagController());
 
   await g<UsuarioService>().carregarSessao();
 
-  runApp(DevicePreview(enabled: false, builder: (context) => const MainApp()));
+  runApp(DevicePreview(enabled: true, builder: (context) => const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -69,6 +70,7 @@ class MainApp extends StatelessWidget {
         'Sobre': (context) => SobreView(),
         'EsqueceuSenha': (context) => EsqueceuSenhaView(),
         'FinalizarPedido': (context) => FinalizarPedidoView(),
+        'Conta': (context) => const ContaView(),
       },
     );
   }

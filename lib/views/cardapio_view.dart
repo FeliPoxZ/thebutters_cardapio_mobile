@@ -13,13 +13,15 @@ class CardapioView extends StatefulWidget {
 }
 
 class _CardapioViewState extends State<CardapioView> {
-  final controller = GetIt.I<CardapioController>();
+  late final CardapioController controller;
 
   late Future<void> _loadData;
 
   @override
   void initState() {
     super.initState();
+
+    controller = GetIt.I<CardapioController>();
 
     _loadData = controller.init();
 
@@ -223,7 +225,7 @@ class _Header extends StatelessWidget {
                     children: [
                       RoundButtonWidget(
                         onPressed: () {
-                          Navigator.pushNamed(context, "Sobre");
+                          Navigator.pushNamed(context, "Conta");
                         },
                         icon: const Icon(
                           Icons.account_circle_outlined,
